@@ -8,7 +8,7 @@ const Navbar = () => {
   const [user, setUser] = useState({});
 
   const getUser = async () => {
-    const { data } = await axios.get("#", {
+    const { data } = await axios.get("/api/users/me", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
@@ -81,7 +81,7 @@ const Navbar = () => {
             <i className="fa fa-code" /> Dev-room
           </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -89,10 +89,10 @@ const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link to="/developers" className="nav-link">

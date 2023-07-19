@@ -41,37 +41,37 @@ const UserRegister = () => {
     else setUserError({ ...userError, passwordError: "" });
   };
 
-  let submitRegistration = async(e) => {
+  let submitRegistration = async (e) => {
     e.preventDefault();
     if (
       user.name.trim() !== "" &&
       user.email.trim() !== "" &&
       user.password.trim() !== ""
     ) {
-     let name = user.name.trim();
-     let email = user.email.trim();
-     let password = user.password.trim();
+      let name = user.name.trim();
+      let email = user.email.trim();
+      let password = user.password.trim();
 
-   const { status } = await axios.post(
-     "#",
-     { name, email, password },
-     {
-       headers: {
-         "Content-Type": "application/json",
-       },
-     }
-   );
-   console.log(status);
-  if (status === 201){
-    Swal.fire("User already exists","", "error");
-    return;
-  }else if(status === 200){
-     Swal.fire("Registration successful","", "success");
-     navigate("/users/login");
-  } 
+      const { status } = await axios.post(
+        "/api/users/register",
+        { name, email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(status);
+      if (status === 201) {
+        Swal.fire("User already exists", "", "error");
+        return;
+      } else if (status === 200) {
+        Swal.fire("Registration successful", "", "success");
+        navigate("/users/login");
+      }
       console.log(user);
     } else {
-       Swal.fire("Oh no!", "Something went wrong! Try again", "error");
+      Swal.fire("Oh no!", "Something went wrong! Try again", "error");
     }
   };
 
@@ -116,9 +116,8 @@ const UserRegister = () => {
                     value={user.email}
                     onChange={validateEmail}
                     type="email"
-                    className={`form-control mb-3 ${
-                      userError.emailError.length > 0 ? "is-invalid" : ""
-                    }`}
+                    className={`form-control mb-3 ${userError.emailError.length > 0 ? "is-invalid" : ""
+                      }`}
                     placeholder="Email"
                   />
                   {userError.emailError.length > 0 ? (
@@ -136,9 +135,8 @@ const UserRegister = () => {
                     value={user.password}
                     onChange={validatePassword}
                     type="password"
-                    className={`form-control mb-3 ${
-                      userError.passwordError.length > 0 ? "is-invalid" : ""
-                    }`}
+                    className={`form-control mb-3 ${userError.passwordError.length > 0 ? "is-invalid" : ""
+                      }`}
                     placeholder="Password"
                   />
                   {userError.passwordError.length > 0 ? (
@@ -157,7 +155,7 @@ const UserRegister = () => {
                   />
                 </div>
               </form>
-              
+
               <small>
                 Already have an account ?
                 <Link to="/users/login" className="font-weight-bold text-teal">
