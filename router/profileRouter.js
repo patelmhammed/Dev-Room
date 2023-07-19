@@ -97,7 +97,7 @@ router.post("/", authenticate, async (request, response) => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTOkHm3_mPQ5PPRvGtU6Si7FJg8DVDtZ47rw&usqp=CAU";
     }
     await User.findOneAndUpdate({ _id: request.user.id }, { avatar: image });
-    
+
     await profile.populate("user");
     response.status(200).json({
       msg: "Profile Created Successfully",
@@ -176,7 +176,7 @@ router.put("/", authenticate, async (request, response) => {
     if (instagram) profileObj.social.instagram = instagram;
     else profileObj.social.instagram = "https://www.instagram.com/";
 
-    if (image == "undefined" || image == "" || image == null){
+    if (image == "undefined" || image == "" || image == null) {
       image =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTOkHm3_mPQ5PPRvGtU6Si7FJg8DVDtZ47rw&usqp=CAU";
     }
@@ -190,7 +190,7 @@ router.put("/", authenticate, async (request, response) => {
       },
       { new: true }
     ).populate("user");
-    
+
     response.status(200).json({
       msg: "Profile is Updated Successfully",
       profile: profile,
@@ -303,6 +303,76 @@ router.delete("/experience/:expId", authenticate, async (request, response) => {
 });
 
 /*
+  @usage : ADD Education of a profile
+  @url : /api/profiles/education/
+  @fields : school , degree , fieldOfStudy , from , to , current , description
+  @method : PUT
+  @access : PRIVATE
+*/
+router.put("/education", authenticate, async (request, response) => {
+  try {
+    let { school, degree, fieldOfStudy, from, description, to, current } =
+      request.body;
+    let newEducation = {
+      school: school,
+      degree: degree,
+      fieldOfStudy: fieldOfStudy,
+      from: from,
+      description: description,
+      to: to ? to : " ",
+      current: current ? current : false,
+    };
+    // get profile of a user
+    let profile = await Profile.findOne({ user: request.user.id });
+    if (!profile) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: "No Profile is Found" }] });
+    }
+    profile.education.unshift(newEducation);
+    await profile.save();
+    response.status(200).json({ profile: profile });
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ errors: [{ msg: error.message }] });
+  }
+});
+
+/*
+  @usage : Delete an Education of a profile
+  @url : /api/profiles/education/:eduId
+  @fields : no-fields
+  @method : DELETE
+  @access : PRIVATE
+*/
+router.delete("/education/:eduId", authenticate, async (request, response) => {
+  try {
+    let educationID = request.params.eduId;
+
+    // check if profile is exists
+    let profile = await Profile.findOne({ user: request.user.id });
+    if (!profile) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: "No Profile is Found" }] });
+    }
+    let removableIndex = profile.education
+      .map((edu) => edu._id.toString())
+      .indexOf(educationID);
+    if (removableIndex !== -1) {
+      profile.education.splice(removableIndex, 1);
+      await profile.save();
+      response.status(200).json({
+        msg: "Education is Deleted",
+        profile: profile,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ errors: [{ msg: error.message }] });
+  }
+});
+/*
   @usage : Get all Profiles
   @url : /api/profiles/all
   @fields : no-fields
@@ -334,12 +404,15 @@ router.get("/all", async (request, response) => {
 router.get("/:profileId", async (request, response) => {
   try {
     let profileId = request.params.profileId;
-    let profile = await Profile.findById(profileId).populate("user",["name","avatar"]);
+    let profile = await Profile.findById(profileId).populate("user", [
+      "name",
+      "avatar",
+    ]);
 
-    if(!profile){
+    if (!profile) {
       return response
-      .status(400)
-      .json({ errors: [{ msg: "No Profile Found for this user" }] });
+        .status(400)
+        .json({ errors: [{ msg: "No Profile Found for this user" }] });
     }
 
     response.status(200).json({ profile: profile });
