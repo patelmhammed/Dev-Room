@@ -45,6 +45,7 @@ const DeveloperList = () => {
                 (
                   <React.Fragment>
                     <div className="container">
+                      {/* Each profile displayed in row */}
                       <div className="row">
                         <div className="col">
                           {profiles.map((profile) => {
@@ -54,9 +55,9 @@ const DeveloperList = () => {
                                   <div className="row">
                                     {/* Avatar of Developer */}
                                     <div className="col-md-2">
-                                      <img src={profile.user.avatar} 
-                                      className="img-fluid img-thumbnail" 
-                                      alt="" />
+                                      <img src={profile.user.avatar}
+                                        className="img-fluid img-thumbnail"
+                                        alt="" />
                                     </div>
 
                                     {/* Details Website,Location etc. */}
@@ -76,8 +77,10 @@ const DeveloperList = () => {
                                       <br />
                                       <small>{profile.location}</small>
                                       <br />
+
+                                      {/* Link to View Profile */}
                                       <Link to={`/developers/${profile._id}`}
-                                      className="btn btn-teal btn-sm">
+                                        className="btn btn-teal btn-sm">
                                         View Profile
                                       </Link>
                                     </div>

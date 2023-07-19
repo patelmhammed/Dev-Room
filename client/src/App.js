@@ -23,8 +23,11 @@ function App() {
           <Route path="/users/register" element={<UserRegister />} />
           <Route path="/users/login" element={<UserLogin />} />
           <Route path="/developers" element={<DeveloperList />} />
-          <Route path="/profiles/dashboard" element={<DeveloperDetails />} />
-          <Route path="/developers/:developerId" element={<Dashboard />} />
+          <Route path="/profiles/dashboard" element={<Dashboard />} />
+          <Route
+            path="/developers/:developerId"
+            element={<DeveloperDetails />}
+          />
           <Route path="/profiles/create-profile" element={<CreateProfile />} />
           <Route path="/profiles/edit-profile" element={<EditProfile />} />
           <Route path="/profiles/add-education" element={<AddEducation />} />
