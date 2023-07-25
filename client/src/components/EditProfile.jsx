@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 let EditProfile = () => {
- const [profile, setProfile] = useState({});
- const [loading, setLoading] = useState(true);
- const [loggedIn, setLoggedIn] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
- let navigate = useNavigate();
+  let navigate = useNavigate();
   let [localProfile, setLocalProfile] = useState({
     image: "",
     company: "",
@@ -27,12 +27,12 @@ let EditProfile = () => {
     instagram: "",
   });
 
-      useEffect(() => {
-        if (!localStorage.getItem("devroom")) {
-          navigate("/users/login");
-        }
-        setLoggedIn(true);
-      }, []);
+  useEffect(() => {
+    if (!localStorage.getItem("devroom")) {
+      navigate("/users/login");
+    }
+    setLoggedIn(true);
+  }, []);
 
 
   const uploadImage = async (e) => {
@@ -58,57 +58,57 @@ let EditProfile = () => {
     });
   };
 
-     const getProfile = async (userPassed) => {
-       let { status, data } = await axios.get("https://devroom-backend.onrender.com/api/profiles/me", {
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: `Bearer ${localStorage.getItem("devroom")}`,
-         },
-       });
-       console.log(data);
-       if (status == 200){ 
-        let profile = data.profile;
-        setProfile(profile);
-   
-     setLocalProfile({
-       image: userPassed.avatar,
-       company: profile.company ? profile.company : "",
-       location: profile.location ? profile.location : "",
-       designation: profile.designation ? profile.designation : "",
-       website: profile.website ? profile.website : "",
-       githubUserName: profile.githubUserName ? profile.githubUserName : "",
-       skills: profile.skills ? profile.skills : "",
-       bio: profile.bio ? profile.bio : "",
-       youtube:
-         profile && profile.social?.youtube ? profile.social.youtube : "",
-       twitter:
-         profile && profile.social?.twitter ? profile.social.twitter : "",
-       facebook:
-         profile && profile.social?.facebook ? profile.social.facebook : "",
-       instagram:
-         profile && profile.social?.instagram ? profile.social.instagram : "",
-       linkedin:
-         profile && profile.social?.linkedin ? profile.social.linkedin : "",
-     });
-       setLoading(false);
+  const getProfile = async (userPassed) => {
+    let { status, data } = await axios.get("http://localhost:5000//api/profiles/me", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("devroom")}`,
+      },
+    });
+    console.log(data);
+    if (status == 200) {
+      let profile = data.profile;
+      setProfile(profile);
+
+      setLocalProfile({
+        image: userPassed.avatar,
+        company: profile.company ? profile.company : "",
+        location: profile.location ? profile.location : "",
+        designation: profile.designation ? profile.designation : "",
+        website: profile.website ? profile.website : "",
+        githubUserName: profile.githubUserName ? profile.githubUserName : "",
+        skills: profile.skills ? profile.skills : "",
+        bio: profile.bio ? profile.bio : "",
+        youtube:
+          profile && profile.social?.youtube ? profile.social.youtube : "",
+        twitter:
+          profile && profile.social?.twitter ? profile.social.twitter : "",
+        facebook:
+          profile && profile.social?.facebook ? profile.social.facebook : "",
+        instagram:
+          profile && profile.social?.instagram ? profile.social.instagram : "",
+        linkedin:
+          profile && profile.social?.linkedin ? profile.social.linkedin : "",
+      });
+      setLoading(false);
     }
 
-     };
+  };
 
 
- const getUser = async () => {
-   let { data } = await axios.get("https://devroom-backend.onrender.com/api/users/me", {
-     headers: {
-       "Content-Type": "application/json",
-       Authorization: `Bearer ${localStorage.getItem("devroom")}`,
-     },
-   });
-   getProfile(data.user);
- };
+  const getUser = async () => {
+    let { data } = await axios.get("http://localhost:5000//api/users/me", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("devroom")}`,
+      },
+    });
+    getProfile(data.user);
+  };
 
   useEffect(() => {
-    if(loggedIn) {
-    getUser();
+    if (loggedIn) {
+      getUser();
     }
   }, [loggedIn]);
 
@@ -119,10 +119,10 @@ let EditProfile = () => {
     });
   };
 
-  let submitUpdateProfile = async(event) => {
+  let submitUpdateProfile = async (event) => {
     event.preventDefault();
 
- await axios.put("https://devroom-backend.onrender.com/api/profiles/", localProfile, {
+    await axios.put("http://localhost:5000//api/profiles/", localProfile, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
