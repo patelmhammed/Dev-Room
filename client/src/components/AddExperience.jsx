@@ -36,7 +36,7 @@ let AddExperience = () => {
 
   let submitAddExperience = async (e) => {
     e.preventDefault();
-    await axios.put("https://devroom-backend.onrender.com/api/profiles/experience/", experience, {
+    await axios.put("http://localhost:5000/api/profiles/experience/", experience, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
@@ -48,7 +48,6 @@ let AddExperience = () => {
 
   return (
     <React.Fragment>
-      {/*<pre>{JSON.stringify(experience)}</pre>*/}
       <section className="p-3">
         <div className="container">
           <div className="row">

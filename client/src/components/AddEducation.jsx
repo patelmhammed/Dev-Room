@@ -39,7 +39,7 @@ let AddEducation = () => {
 
   let submitAddEducation = async(e) => {
     e.preventDefault();
-    await axios.put("https://devroom-backend.onrender.com/api/profiles/education/",education,{
+    await axios.put("http://localhost:5000/api/profiles/education/",education,{
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
@@ -51,7 +51,6 @@ let AddEducation = () => {
 
   return (
     <React.Fragment>
-      {/*<pre>{JSON.stringify(education)}</pre>*/}
       <section className="p-3">
         <div className="container">
           <div className="row">

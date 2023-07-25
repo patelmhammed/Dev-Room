@@ -8,7 +8,7 @@ const Navbar = () => {
   const [user, setUser] = useState({});
 
   const getUser = async () => {
-    const { data } = await axios.get("/api/users/me", {
+    const { data } = await axios.get("http://localhost:5000/api/users/me", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,

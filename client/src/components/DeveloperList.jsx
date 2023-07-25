@@ -8,7 +8,7 @@ const DeveloperList = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchProfiles = async () => {
-    const { data } = await axios.get("/api/profiles/all", {
+    const { data } = await axios.get("http://localhost:5000/api/profiles/all", {
       headers: {
         "Content-Type": "application/json",
       },

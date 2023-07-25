@@ -42,7 +42,7 @@ let UserLogin = () => {
     if (user.email !== "" && user.password !== "") {
       let email = user.email;
       let password = user.password;
-      const { status, data } = await axios.post("/api/users/login", { email, password }, {
+      const { status, data } = await axios.post("http://localhost:5000/api/users/login", { email, password }, {
         headers: {
           "Content-Type": "application/json"
         }

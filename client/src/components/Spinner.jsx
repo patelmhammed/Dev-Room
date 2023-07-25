@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import spinnerImg from "./spinner.gif";
 
-const Spinner = () => {
+let Spinner = () => {
   return (
-    <div>Spinner</div>
-  )
-}
-
-export default Spinner
+    <React.Fragment>
+      <div>
+        <img src={spinnerImg} alt="" className="d-block m-auto" />
+      </div>
+    </React.Fragment>
+  );
+};
+export default Spinner;

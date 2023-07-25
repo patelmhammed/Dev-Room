@@ -11,7 +11,7 @@ const DeveloperDetails = () => {
   let developerId = useParams().developerId;
 
   const fetchDeveloper = async () => {
-    const { data } = await axios.get(`/api/profiles/${developerId}`, {
+    const { data } = await axios.get(`http://localhost:5000/api/profiles/${developerId}`, {
       headers: {
         "Content-Type": "application/json",
       },
