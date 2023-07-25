@@ -4,7 +4,7 @@ import Spinner from './Spinner'
 import axios from 'axios'
 
 const DeveloperList = () => {
-  const [profiles, setPorfiles] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProfiles = async () => {
@@ -13,7 +13,7 @@ const DeveloperList = () => {
         "Content-Type": "application/json",
       },
     });
-    setPorfiles(data.profiles);
+    setProfiles(data.profiles);
     setLoading(false);
     console.log(profiles);
   }

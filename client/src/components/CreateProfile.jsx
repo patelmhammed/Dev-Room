@@ -72,7 +72,6 @@ let CreateProfile = () => {
 
   return (
     <React.Fragment>
-      {/* <pre>{JSON.stringify(profile)}</pre>*/}
       <section className="p-3">
         <div className="container">
           <div className="row">
@@ -85,10 +84,12 @@ let CreateProfile = () => {
           </div>
         </div>
       </section>
+
+      {/* Input of the Profile Details */}
       <section>
         <div className="container">
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-8" >
               <form onSubmit={submitCreateProfile}>
                 <div className="col-md-5 border-right">
                   <div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -103,7 +104,7 @@ let CreateProfile = () => {
                     </span>
                     <input
                       type="file"
-                      className="text-center form-control"
+                      className="form-control text-center"
                       onChange={(e) => {
                         uploadImage(e);
                       }}
@@ -252,7 +253,7 @@ let CreateProfile = () => {
                     Back
                   </Link>
                 </div>
-              </form>
+                </form>
             </div>
           </div>
         </div>
