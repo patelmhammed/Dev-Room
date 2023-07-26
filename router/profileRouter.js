@@ -387,7 +387,7 @@ router.get("/all", async (request, response) => {
         .status(400)
         .json({ errors: [{ msg: "No Profile Found" }] });
     }
-    response.status({ profiles: profiles });
+    response.status(200).json({ profiles: profiles });
   } catch (error) {
     console.error(error);
     response.status(500).json({ errors: [{ msg: error.message }] });

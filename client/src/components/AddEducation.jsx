@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2"
@@ -16,11 +16,11 @@ let AddEducation = () => {
   });
 
 
-      useEffect(() => {
-        if (!localStorage.getItem("devroom")) {
-          navigate("/users/login");
-        }
-      }, []);
+  useEffect(() => {
+    if (!localStorage.getItem("devroom")) {
+      navigate("/users/login");
+    }
+  }, []);
 
 
   let updateInput = (e) => {
@@ -37,9 +37,9 @@ let AddEducation = () => {
     }
   };
 
-  let submitAddEducation = async(e) => {
+  let submitAddEducation = async (e) => {
     e.preventDefault();
-    await axios.put("http://localhost:5000/api/profiles/education/",education,{
+    await axios.put("http://localhost:5000/api/profiles/education/", education, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
