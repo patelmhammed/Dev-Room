@@ -26,7 +26,6 @@ const Dashboard = () => {
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       },
     })
-    console.log(data.profile.education);
     if (status == 200) {
       setProfile(data.profile);
     }
