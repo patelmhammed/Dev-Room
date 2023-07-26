@@ -65,7 +65,6 @@ let EditProfile = () => {
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       },
     });
-    console.log(data);
     if (status == 200) {
       let profile = data.profile;
       setProfile(profile);
@@ -95,7 +94,6 @@ let EditProfile = () => {
 
   };
 
-
   const getUser = async () => {
     let { data } = await axios.get("http://localhost:5000//api/users/me", {
       headers: {
@@ -121,7 +119,6 @@ let EditProfile = () => {
 
   let submitUpdateProfile = async (event) => {
     event.preventDefault();
-
     await axios.put("http://localhost:5000//api/profiles/", localProfile, {
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +133,6 @@ let EditProfile = () => {
 
   return (
     <React.Fragment>
-      {/* <pre>{JSON.stringify(profile.user)}</pre> */}
       <section className="p-3">
         <div className="container">
           <div className="row">
@@ -153,7 +149,6 @@ let EditProfile = () => {
         <Spinner />
       ) : (
         <React.Fragment>
-          {/* <pre>{JSON.stringify(localProfile)}</pre>*/}
           <section>
             <div className="container">
               <div className="row">

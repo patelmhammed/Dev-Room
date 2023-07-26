@@ -39,7 +39,6 @@ const Dashboard = () => {
       },
     });
     setUser(data.user);
-    console.log(data.user);
     setLoading(false);
   }
 

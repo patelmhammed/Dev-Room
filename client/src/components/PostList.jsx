@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2"
 import Spinner from "./Spinner";
@@ -10,17 +10,18 @@ let PostList = () => {
     image: "",
   });
 
-  let navigate=useNavigate();
-  let [user,setUser] = useState({});
+  let navigate = useNavigate();
+  let [user, setUser] = useState({});
   let [posts, setPosts] = useState({});
-  let [loading,setLoading] = useState(true);
-  let [loggedIn,setLoggedIn]=useState(false);
- useEffect(() => {
-   if (!localStorage.getItem("devroom")) {
-     navigate("/users/login");
-   }
-   setLoggedIn(true);
- }, []);
+  let [loading, setLoading] = useState(true);
+  let [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem("devroom")) {
+      navigate("/users/login");
+    }
+    setLoggedIn(true);
+  }, []);
 
   function timeDifference(current, previous) {
     var msPerMinute = 60 * 1000;
@@ -49,28 +50,26 @@ let PostList = () => {
   }
 
 
-   const getUser = async () => {
-     let { data } = await axios.get("http://localhost:5000/api/users/me", {
-       headers: {
-         "Content-Type": "application/json",
-         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
-       },
-     });
-     setUser(data.user);
-     console.log(data.user);
-   };
+  const getUser = async () => {
+    let { data } = await axios.get("http://localhost:5000/api/users/me", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("devroom")}`,
+      },
+    });
+    setUser(data.user);
+  };
 
-    const getPosts = async () => {
-      let { data } = await axios.get("http://localhost:5000/api/posts/", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("devroom")}`,
-        },
-      });
-      setPosts(data.posts);
-      console.log(data.posts);
-      setLoading(false);
-    };
+  const getPosts = async () => {
+    let { data } = await axios.get("http://localhost:5000/api/posts/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("devroom")}`,
+      },
+    });
+    setPosts(data.posts);
+    setLoading(false);
+  };
 
 
   useEffect(() => {
@@ -88,21 +87,19 @@ let PostList = () => {
     });
   };
 
-  let submitCreatePost = async(e) => {
+  let submitCreatePost = async (e) => {
     e.preventDefault();
-    if (localPost.text.trim() !== "")
-    {
-      const {data} =  await axios.post("http://localhost:5000/api/posts/",localPost,{
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("devroom")}`,
-      },
-    })
-    Swal.fire("Post created successfully", "", "success");
-    console.log(user);
-    getPosts();
+    if (localPost.text.trim() !== "") {
+      const { data } = await axios.post("http://localhost:5000/api/posts/", localPost, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("devroom")}`,
+        },
+      })
+      Swal.fire("Post created successfully", "", "success");
+      getPosts();
     }
-  
+
     setLocalPost({
       text: "",
       image: "",
@@ -116,30 +113,28 @@ let PostList = () => {
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       },
     });
-    let newArr = posts.filter((post)=>{
-      if(post._id==postId)return false;
+    let newArr = posts.filter((post) => {
+      if (post._id == postId) return false;
       return true;
     })
-   setPosts(newArr);
+    setPosts(newArr);
     Swal.fire("Post deleted successfully", "", "success");
   };
 
-  let clickLikePost = async(postId) => {
-    const {data} = await axios.put(`http://localhost:5000/api/posts/like/${postId}`,{},{
+  let clickLikePost = async (postId) => {
+    const { data } = await axios.put(`http://localhost:5000/api/posts/like/${postId}`, {}, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       }
     });
-   getPosts();
+    getPosts();
   };
 
-  
+
 
   return (
     <React.Fragment>
-      {/* { <pre>{JSON.stringify(posts)}</pre> } */}
-
       <section className="p-3">
         <div className="container">
           <div className="row">
@@ -157,15 +152,15 @@ let PostList = () => {
                 <form onSubmit={submitCreatePost}>
                   <div className="input-group mb-2">
                     <div className="input-group-prepend">
-                
-                        <img
-                          src={user.avatar}
-                          alt=""
-                          width="50"
-                          height="50"
-                          className="rounded-circle me-2 mt-3"
-                        />
-                     
+
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        width="50"
+                        height="50"
+                        className="rounded-circle me-2 mt-3"
+                      />
+
                     </div>
                     <textarea
                       required
@@ -211,6 +206,8 @@ let PostList = () => {
           <hr />
         </div>
       </section>
+
+      {/* List of all the Posts */}
       <section>
         {loading ? (
           <Spinner />

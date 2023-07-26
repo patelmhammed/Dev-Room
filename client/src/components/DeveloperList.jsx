@@ -15,7 +15,6 @@ const DeveloperList = () => {
     });
     setProfiles(data.profiles);
     setLoading(false);
-    console.log(profiles);
   }
 
   useEffect(() => {

@@ -61,7 +61,6 @@ const UserRegister = () => {
           },
         }
       );
-      console.log(status);
       if (status === 201) {
         Swal.fire("User already exists", "", "error");
         return;
@@ -69,7 +68,6 @@ const UserRegister = () => {
         Swal.fire("Registration successful", "", "success");
         navigate("/users/login");
       }
-      console.log(user);
     } else {
       Swal.fire("Oh no!", "Something went wrong! Try again", "error");
     }

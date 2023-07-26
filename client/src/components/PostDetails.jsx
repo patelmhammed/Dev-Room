@@ -55,7 +55,6 @@ let PostDetails = () => {
        },
      });
      setUser(data.user);
-     console.log(data.user);
    };
 
   let getPost = async() =>{
