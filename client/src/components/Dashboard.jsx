@@ -26,6 +26,7 @@ const Dashboard = () => {
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       },
     })
+    console.log(data.profile.education);
     if (status == 200) {
       setProfile(data.profile);
     }
@@ -67,7 +68,7 @@ const Dashboard = () => {
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
       },
     })
-    Swal.fire("Experience deleted", "", "success");
+    Swal.fire("Education deleted", "", "success");
     setProfile(data.profile);
   }
 
@@ -219,7 +220,7 @@ const Dashboard = () => {
                             </thead>
 
                             <tbody>
-                              {profile.experience.map((edu) => {
+                              {profile.education.map((edu) => {
                                 return (
                                   <tr key={edu._id}>
                                     <td>{edu.school}</td>

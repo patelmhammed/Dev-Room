@@ -59,7 +59,7 @@ let EditProfile = () => {
   };
 
   const getProfile = async (userPassed) => {
-    let { status, data } = await axios.get("http://localhost:5000//api/profiles/me", {
+    let { status, data } = await axios.get("http://localhost:5000/api/profiles/me", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
@@ -95,7 +95,7 @@ let EditProfile = () => {
   };
 
   const getUser = async () => {
-    let { data } = await axios.get("http://localhost:5000//api/users/me", {
+    let { data } = await axios.get("http://localhost:5000/api/users/me", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
@@ -119,7 +119,7 @@ let EditProfile = () => {
 
   let submitUpdateProfile = async (event) => {
     event.preventDefault();
-    await axios.put("http://localhost:5000//api/profiles/", localProfile, {
+    await axios.put("http://localhost:5000/api/profiles/", localProfile, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("devroom")}`,
