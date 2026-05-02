@@ -11,14 +11,14 @@ let authenticate = async (request, response, next) => {
     }
 
     if (!token) {
-      response.status(401).json({ msg: "User unauthorized" });
+      return response.status(401).json({ msg: "User unauthorized" });
     }
 
     const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     request.user = verifiedToken.user;
     next();
   } catch (error) {
-    console.log(error);
+    console.error("Auth failed:", error.message);
     response.status(500).json({ msg: "Invalid Token" });
   }
 };

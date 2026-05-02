@@ -23,7 +23,7 @@ router.get("/me", authenticate, async (request, response) => {
     }
     response.status(200).json({ profile: profile });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -104,7 +104,7 @@ router.post("/", authenticate, async (request, response) => {
       profile: profile,
     });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -196,7 +196,7 @@ router.put("/", authenticate, async (request, response) => {
       profile: profile,
     });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -222,7 +222,7 @@ router.get("/users/:userId", async (request, response) => {
     }
     response.status(200).json({ profile: profile });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -259,7 +259,7 @@ router.put("/experience", authenticate, async (request, response) => {
     await profile.save();
     response.status(200).json({ profile: profile });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -287,17 +287,21 @@ router.delete("/experience/:expId", authenticate, async (request, response) => {
       .map((exp) => exp._id.toString())
       .indexOf(experienceID);
 
-    if (removableIndex !== -1) {
-      profile.experience.splice(removableIndex, 1);
-      await profile.save();
-
-      return response.status(200).json({
-        msg: "Experience is Deleted",
-        profile: profile,
-      });
+    if (removableIndex === -1) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: "Experience not found" }] });
     }
+
+    profile.experience.splice(removableIndex, 1);
+    await profile.save();
+
+    return response.status(200).json({
+      msg: "Experience is Deleted",
+      profile: profile,
+    });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -333,7 +337,7 @@ router.put("/education", authenticate, async (request, response) => {
     await profile.save();
     response.status(200).json({ profile: profile });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -359,16 +363,20 @@ router.delete("/education/:eduId", authenticate, async (request, response) => {
     let removableIndex = profile.education
       .map((edu) => edu._id.toString())
       .indexOf(educationID);
-    if (removableIndex !== -1) {
-      profile.education.splice(removableIndex, 1);
-      await profile.save();
-      response.status(200).json({
-        msg: "Education is Deleted",
-        profile: profile,
-      });
+    if (removableIndex === -1) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: "Education not found" }] });
     }
+
+    profile.education.splice(removableIndex, 1);
+    await profile.save();
+    response.status(200).json({
+      msg: "Education is Deleted",
+      profile: profile,
+    });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -382,14 +390,14 @@ router.delete("/education/:eduId", authenticate, async (request, response) => {
 router.get("/all", async (request, response) => {
   try {
     let profiles = await Profile.find().populate("user", ["name", "avatar"]);
-    if (!profiles) {
+    if (!profiles || profiles.length === 0) {
       return response
         .status(400)
         .json({ errors: [{ msg: "No Profile Found" }] });
     }
     response.status(200).json({ profiles: profiles });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -417,7 +425,7 @@ router.get("/:profileId", async (request, response) => {
 
     response.status(200).json({ profile: profile });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });

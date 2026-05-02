@@ -38,7 +38,7 @@ router.post("/", authenticate, async (request, response) => {
       post: post,
     });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -53,12 +53,12 @@ router.post("/", authenticate, async (request, response) => {
 router.get("/", authenticate, async (request, response) => {
   try {
     let posts = await Post.find().populate("user", ["avatar"]);
-    if (!posts) {
-      return response.status(400).json({ erros: [{ msg: "No Post Found" }] });
+    if (!posts || posts.length === 0) {
+      return response.status(400).json({ errors: [{ msg: "No Post Found" }] });
     }
     response.status(200).json({ posts: posts });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -79,7 +79,7 @@ router.get("/:postId", authenticate, async (request, response) => {
     }
     response.status(200).json({ post: post });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -99,13 +99,13 @@ router.delete("/:postId", authenticate, async (request, response) => {
     if (!post) {
       return response.status(400).json({ errors: [{ msg: "No Post Found" }] });
     }
-    post = await Post.findByIdAndRemove(postId);
+    post = await Post.findByIdAndDelete(postId);
     response.status(200).json({
       msg: "Post is Deleted",
       post: post,
     });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -135,7 +135,7 @@ router.put("/like/:postId", authenticate, async (request, response) => {
     ).populate("user", ["_id", "avatar"]);
     response.status(200).json({ post: post });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -171,7 +171,7 @@ router.post("/comment/:postId", authenticate, async (request, response) => {
 
     response.status(200).json({ post: post });
   } catch (error) {
-    console.error(error);
+    console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -217,7 +217,7 @@ router.delete(
         response.status(200).json({ post: post });
       }
     } catch (error) {
-      console.error(error);
+      console.error(`${request.method} ${request.originalUrl} failed:`, error.message);
       response.status(500).json({ errors: [{ msg: error.message }] });
     }
   }

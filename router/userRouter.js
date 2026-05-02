@@ -37,7 +37,7 @@ router.post("/register", async (request, response) => {
       .status(200)
       .json({ msg: "You Account is Registered Successfully" });
   } catch (error) {
-    console.log(error);
+    console.error("POST /register failed:", error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -97,7 +97,7 @@ router.post("/login", async (request, response) => {
       });
     });
   } catch (error) {
-    console.log(error);
+    console.error("POST /login failed:", error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });
@@ -116,7 +116,7 @@ router.get("/me", authenticate, async (request, response) => {
       user: user,
     });
   } catch (error) {
-    console.log(error);
+    console.error("GET /me failed:", error.message);
     response.status(500).json({ errors: [{ msg: error.message }] });
   }
 });

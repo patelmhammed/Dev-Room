@@ -26,16 +26,13 @@ dotEnv.config({path: "./.env"});
 const PORT = process.env.PORT || 5000;
 
 // Mongo DB Configuration
-mongoose.connect(process.env.MONGO_DB_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_DB_URL)
 .then((response) => {
-    console.log("DB Connected");
+    console.log(`DB Connected to ${response.connection.host}`);
 })
 .catch((error) => {
-    console.error(error);
-    process.exit(1); // Stop the process if unable to connect to mongodb
+    console.error("DB Connection Failed:", error.message);
+    process.exit(1);
 })
 
 // Router Configuration
